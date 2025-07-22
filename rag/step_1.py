@@ -1,5 +1,7 @@
 # Get data from API
+import json
 import os
+
 import requests
 
 # Fetch data from a public API
@@ -18,8 +20,11 @@ data = response.json()
 processed_data = [item for item in data['issues']]
 print(processed_data)
 # Save processed data to a file
-with open('processed_data.txt', 'w') as file:
+with open('step_1_results.txt', 'w') as file:
     for item in processed_data:
+        # Write json lines to the file and use double quotes for JSON compatibility
+        item = json.dumps(item, ensure_ascii=False)
+        item = item.replace("'", '"')  # Replace single quotes with double quotes
         file.write(f"{item}\n")
 # Print confirmation
-print("Data processed and saved to processed_data.txt")
+print("Data processed and saved to step_1_results.txt")
