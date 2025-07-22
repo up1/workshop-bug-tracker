@@ -16,3 +16,34 @@ Access to Mantis server
 ## Manage data in Mantis with API
 * Create API token in http://localhost:8989/api_tokens_page.php
 
+## RAG process
+
+### 1. Get all bugs from Mantis 
+```
+$cd rag
+$export API_TOKEN==<your mantis token>
+
+$python step_1.py
+```
+
+Result in file `step_1_results.txt`
+
+### 2. Embedding data and save to Vector database
+* [Milvus](https://github.com/milvus-io/milvus)
+
+Start Milvus in STandalone mode
+```
+$docker compose -f docker-compose-milvus.yml up -d
+$docker compose -f docker-compose-milvus.yml ps
+```
+
+Access to UI Milvus server
+* http://127.0.0.1:9091/webui/
+
+
+Embedding and store data in Milvus
+```
+$export OPENAI_API_KEY=<your token>
+$python step_2.py
+```
+
