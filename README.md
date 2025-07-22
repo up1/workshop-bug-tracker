@@ -1,5 +1,6 @@
 ## Working with Mantis
 * https://github.com/xlrl/docker-mantisbt/
+* https://documenter.getpostman.com/view/29959/mantis-bug-tracker-rest-api/7Lt6zkP#5cf35ffd-964b-ef90-5907-bd6b3efe87d4
 
 
 ## Install and configuration Mantis with Docker compose
