@@ -19,6 +19,13 @@ Access to Mantis server
 ## RAG process
 
 ### 1. Get all bugs from Mantis 
+
+Install libraries
+```
+$pip install -r requirements.txt
+```
+
+Run
 ```
 $cd rag
 $export API_TOKEN==<your mantis token>
@@ -31,7 +38,7 @@ Result in file `step_1_results.txt`
 ### 2. Embedding data and save to Vector database
 * [Milvus](https://github.com/milvus-io/milvus)
 
-Start Milvus in STandalone mode
+Start Milvus in Standalone mode
 ```
 $docker compose -f docker-compose-milvus.yml up -d
 $docker compose -f docker-compose-milvus.yml ps
@@ -45,5 +52,12 @@ Embedding and store data in Milvus
 ```
 $export OPENAI_API_KEY=<your token>
 $python step_2.py
+```
+
+Search bug by description (semantic search)
+* https://milvus.io/docs/quickstart.md
+```
+$export OPENAI_API_KEY=<your token>
+$python step_3.py
 ```
 
