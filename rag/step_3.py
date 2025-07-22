@@ -1,9 +1,9 @@
 # Search data from Milvus
 import os
-import json
 from typing import List, Dict
 from openai import OpenAI
-from pymilvus import Collection, connections
+from pymilvus import Collection
+from pymilvus import MilvusClient
 
 
 def search_data(query: str, top_k: int = 5) -> List[Dict]:
@@ -11,22 +11,33 @@ def search_data(query: str, top_k: int = 5) -> List[Dict]:
     response = client.embeddings.create(input=query, model="text-embedding-3-small")
     query_embedding = response.data[0].embedding
 
-    connections.connect(
-        host=os.getenv("MILVUS_HOST", "localhost"),
-        port=int(os.getenv("MILVUS_PORT", 19530)),
+    milvus_host = os.getenv('MILVUS_HOST', 'localhost')
+    milvus_port = int(os.getenv('MILVUS_PORT', 19530))
+    client = MilvusClient(
+        uri="http://" + milvus_host + ":" + str(milvus_port)
     )
-    collection = Collection(name="bug_tracking")
 
-    search_params = {"metric_type": "COSINE", "params": {"nprobe": 10}}
+    search_params = {
+        "params": {
+            "radius": 0.4,
+            "range_filter": 0.6
+        }
+    }
 
-    results = collection.search(
+    # Search data in Milvus
+    search_results = client.search(
+        collection_name="bug_tracking",
         data=[query_embedding],
         anns_field="embedding",
-        param=search_params,
+        search_params=search_params,
         limit=top_k,
         output_fields=["id", "description"],
     )
-    return [hit.entity for hit in results[0]]
+    if not search_results or not search_results[0]:
+        print("No results found.")
+        return []
+
+    return [hit.entity for hit in search_results[0]]
 
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ import os
 import json
 from typing import List, Dict
 from openai import OpenAI
-from pymilvus import Collection, connections, FieldSchema, CollectionSchema, DataType
+from pymilvus import FieldSchema, CollectionSchema, DataType
     
 from pymilvus import MilvusClient
 
