@@ -1,1 +1,7 @@
+{"id": 2, "summary": "เมื่อสแกนหน้า Idel Check ผ่านในช่วง 2 วินาทีสุดท้าย ระบบแสดง Popup การตรวจสอบความสนใจล้มเหลว", "description": "เมื่อสแกนหน้า Idel Check ผ่านในช่วง 2 วินาทีสุดท้าย ระบบแสดง Popup การตรวจสอบความสนใจล้มเหลว", "severity": {"id": 70, "name": "crash", "label": "crash"}}
+{"id": 3, "summary": "[Liveness] Error: Error: Session was cancelled with status: ContextSwith", "description": "[Liveness] Error: Error: Session was cancelled with status: ContextSwith", "severity": {"id": 70, "name": "crash", "label": "crash"}}
+{"id": 4, "summary": "แจ้งเตือนเซสชั่นหมดอายุ", "description": "แจ้งเตือนเซสชั่นหมดอายุ", "severity": {"id": 70, "name": "crash", "label": "crash"}}
+{"id": 5, "summary": "ระบบไม่จำตำแหน่งการหยุดวิดีโอ", "description": "ระบบไม่จำตำแหน่งการหยุดวิดีโอ", "severity": {"id": 70, "name": "crash", "label": "crash"}}
+{"id": 7, "summary": "หลังลงทะเบียน หน้าจอ แสดง พบข้อผิดพลาด ไม่สามารถสร้างบัญชีในระบบได้", "description": "หลังลงทะเบียน หน้าจอ แสดง พบข้อผิดพลาด ไม่สามารถสร้างบัญชีในระบบได้", "severity": {"id": 50, "name": "minor", "label": "minor"}}
+{"id": 6, "summary": "ลดเสียงได้จนสุด แต่ความดังเสียงที่ได้ยินไม่ได้ลดตาม", "description": "ลดเสียงได้จนสุด แต่ความดังเสียงที่ได้ยินไม่ได้ลดตาม", "severity": {"id": 50, "name": "minor", "label": "minor"}}
 {"id": 1, "summary": "Try to update", "description": "Error 01", "severity": {"id": 60, "name": "major", "label": "major"}}

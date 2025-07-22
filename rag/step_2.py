@@ -5,11 +5,15 @@
 
 import os
 import json
+from symtable import Function
+from types import FunctionType
 from typing import List, Dict
 from openai import OpenAI
 from pymilvus import FieldSchema, CollectionSchema, DataType
     
-from pymilvus import MilvusClient
+from pymilvus import (
+    MilvusClient, DataType, Function, FunctionType
+)
 
 def read_data(file_path: str) -> List[Dict]:
     # read json lines from a file
@@ -17,7 +21,6 @@ def read_data(file_path: str) -> List[Dict]:
     with open(file_path, 'r', encoding='utf-8') as file:
         for line in file:
             try:
-                print(f"Processing line: {line.strip()}")
                 item = json.loads(line.strip())
                 items.append(item)
             except json.JSONDecodeError as e:
@@ -50,11 +53,21 @@ def save_to_milvus(embedded_data: List[Dict], milvus_host: str, milvus_port: int
     # Define schema
     fields = [
         FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
-        FieldSchema(name="description", dtype=DataType.VARCHAR, max_length=500),
+        FieldSchema(name="description", dtype=DataType.VARCHAR, max_length=500, enable_analyzer=True),
+        FieldSchema(name="description_sparse", dtype=DataType.SPARSE_FLOAT_VECTOR),
+        FieldSchema(name="severity", dtype=DataType.VARCHAR, max_length=500),
         FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=len(embedded_data[0]['embedding']))
     ]
-    
     schema = CollectionSchema(fields)
+
+    # Prepare search for BM25
+    bm25_function = Function(
+        name="text_bm25_emb",
+        input_field_names=["description"],
+        output_field_names=["description_sparse"],
+        function_type=FunctionType.BM25,
+    )
+    schema.add_function(bm25_function)
 
     # Prepare index parameters
     index_params = client.prepare_index_params()
@@ -66,6 +79,14 @@ def save_to_milvus(embedded_data: List[Dict], milvus_host: str, milvus_port: int
         metric_type="COSINE"
     )
 
+    index_params.add_index(
+        field_name="description_sparse",
+        index_name="description_sparse_index",
+        index_type="SPARSE_INVERTED_INDEX",
+        metric_type="BM25",
+        params={"inverted_index_algo": "DAAT_MAXSCORE"}, # or "DAAT_WAND" or "TAAT_NAIVE"
+    )
+
     # Create collection
     client.create_collection(
         collection_name="bug_tracking",
@@ -75,13 +96,19 @@ def save_to_milvus(embedded_data: List[Dict], milvus_host: str, milvus_port: int
 
     # Insert data into collection
     datas = [
-        {"id": item['id'], "description": item['description'], "embedding": item['embedding']}
+        {"id": item['id'], 
+         "description": item['description'], 
+         "severity": item['severity']['name'],
+         "embedding": item['embedding']}
         for item in embedded_data
     ]
+    print(datas)
+    # Insert multiple items
     client.insert(
         collection_name="bug_tracking",
         data=datas
     )
+
 
 if __name__ == "__main__":
     # Read data from step_1_results.txt

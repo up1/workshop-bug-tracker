@@ -1,0 +1,24 @@
+Bug id: 1
+Description : เมื่อสแกนหน้า Idel Check ผ่านในช่วง 2 วินาทีสุดท้าย ระบบแสดง Popup การตรวจสอบความสนใจล้มเหลว
+Severity   : High
+
+
+Bug id: 2
+Description : [Liveness] Error: Error: Session was cancelled with status: ContextSwith
+Severity   : High
+
+Bug id: 3
+Description : แจ้งเตือนเซสชั่นหมดอายุ
+Severity   : High
+
+Bug id: 4
+Description : ระบบไม่จำตำแหน่งการหยุดวิดีโอ
+Severity   : High
+
+Bug id: 5
+Description : ลดเสียงได้จนสุด แต่ความดังเสียงที่ได้ยินไม่ได้ลดตาม
+Severity   : Medium
+
+Bug id: 6
+Description : หลังลงทะเบียน หน้าจอ แสดง พบข้อผิดพลาด ไม่สามารถสร้างบัญชีในระบบได้
+Severity   : Medium
