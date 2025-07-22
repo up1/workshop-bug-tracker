@@ -54,8 +54,9 @@ $export OPENAI_API_KEY=<your token>
 $python step_2.py
 ```
 
-Search bug by description (semantic search)
+Search bug by description (Hybrid search + Re-ranking)
 * https://milvus.io/docs/quickstart.md
+* https://milvus.io/docs/multi-vector-search.md
 ```
 $export OPENAI_API_KEY=<your token>
 $python step_3.py
